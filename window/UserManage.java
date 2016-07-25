@@ -1,166 +1,84 @@
 package window;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 
-public class MainFrame extends JFrame {
+public class UserManage extends JPanel {
+	private JLabel accountNameLabel,userIDLabel,userNameLabel,mobilePhoneLabel,fixedPhoneLabel,userEmailLabel;
+	private JTextField accountNameText,userIDText,userNameText,mobilePhoneText,fixedPhoneText,userEmailText;
 	
-	private JTabbedPane tabbedPane;
-	private JPanel userTabPanel,commodityTabPanel,providerTabPanel,circulateTabPanel;
-	private JPanel userBtnPanel,commodityBtnPanel,providerBtnPanel,circulateBtnPanel;
-	private JPanel userContentPanel,commodityContentPanel,providerContentPanel,circulateContentPanel;
-	private JButton userListBtn,userManageBtn,commodityListBtn,providerListBtn,circulateInBtn,circulateSaleBtn,circulateReturnBtn;
 	
-	public MainFrame(int accountType) {
-		this.setTitle("小型超市管理系统");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
-		this.setSize(screen.width, screen.height);		
-		this.setResizable(false);
+	public UserManage(){
+		this.setSize(500, 500);
+		this.setLayout(new GridLayout(7,2));
 		
-		tabbedPane = new JTabbedPane();
-		//用户与权限管理
-		userTabPanel = new JPanel();
-		userTabPanel.setLayout(new BorderLayout());
-		userBtnPanel = new JPanel();
-		userBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		userContentPanel=new JPanel();
-		CardLayout card=new CardLayout();
-		userContentPanel.setLayout(card);
-		userManageBtn = new JButton("个人信息");
-		userManageBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				UserManage user  = new UserManage();
-				userContentPanel.add(user,"user");
-				card.show(user,"user");
-				userContentPanel.repaint();
-			}
+		accountNameLabel = new JLabel("登录名",JLabel.CENTER);
+		accountNameLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				accountNameText.setText("");
+	        } 
 		});
-		userBtnPanel.add(userManageBtn);
-		if (accountType == 0) {
-			userListBtn = new JButton("用户列表");
-			userListBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JPanel f = new JPanel();
-
-					userContentPanel.add(f);
-					userContentPanel.repaint();
-				}
-			});
-			userBtnPanel.add(userListBtn);
-		}
-		userTabPanel.add(userBtnPanel,BorderLayout.NORTH);
+		accountNameText = new JTextField(12); 
 		
-		userContentPanel = new JPanel();
-		userContentPanel.setBackground(Color.DARK_GRAY);
-		userTabPanel.add(userContentPanel,BorderLayout.CENTER);
-		
-		tabbedPane.add("用户信息管理", userTabPanel);
-		
-		//商品管理
-		commodityTabPanel = new JPanel();
-		commodityTabPanel.setLayout(new BorderLayout());
-		commodityBtnPanel = new JPanel();
-		commodityBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		commodityListBtn = new JButton("商品列表");
-		commodityListBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				commodityContentPanel.add(f);
-				commodityContentPanel.repaint();
-			}
+		userIDLabel = new JLabel("用户编号",JLabel.RIGHT);
+		userIDLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				accountNameText.setText("");
+	        } 
 		});
-		commodityBtnPanel.add(commodityListBtn);
-		commodityTabPanel.add(commodityBtnPanel,BorderLayout.NORTH);
+		userIDText = new JTextField(12);
 		
-		commodityContentPanel = new JPanel();
-		commodityContentPanel.setBackground(Color.DARK_GRAY);
-		commodityTabPanel.add(commodityContentPanel,BorderLayout.CENTER);
-		
-		tabbedPane.add("商品管理", commodityTabPanel);
-
-		//供应商管理
-		providerTabPanel = new JPanel();
-		providerTabPanel.setLayout(new BorderLayout());
-		providerBtnPanel = new JPanel();
-		providerBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		providerListBtn = new JButton("供应商列表");
-		providerListBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				providerContentPanel.add(f);
-				providerContentPanel.repaint();
-			}
+		userNameLabel = new JLabel("用户姓名",JLabel.RIGHT);
+		userNameLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				accountNameText.setText("");
+	        } 
 		});
-		providerBtnPanel.add(providerListBtn);
-		providerTabPanel.add(providerBtnPanel,BorderLayout.NORTH);
+		userNameText = new JTextField(12);
 		
-		providerContentPanel = new JPanel();
-		providerContentPanel.setBackground(Color.DARK_GRAY);
-		providerTabPanel.add(providerContentPanel,BorderLayout.CENTER);
-		
-		tabbedPane.add("供应商管理", providerTabPanel);
-
-		//货物流通管理
-		circulateTabPanel = new JPanel();
-		circulateTabPanel.setLayout(new BorderLayout());
-		circulateBtnPanel = new JPanel();
-		circulateBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		circulateInBtn = new JButton("进货记录");
-		circulateInBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				JPanel f = new JPanel();
-				
-				circulateContentPanel.add(f);
-				circulateContentPanel.repaint();
-			}
+		mobilePhoneLabel = new JLabel("手机号码",JLabel.RIGHT);
+		mobilePhoneLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				accountNameText.setText("");
+	        } 
 		});
-		circulateBtnPanel.add(circulateInBtn);
+		mobilePhoneText = new JTextField(12);
 		
-		circulateSaleBtn = new JButton("销售记录");
-		circulateSaleBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				circulateContentPanel.add(f);
-				circulateContentPanel.repaint();
-			}
+		fixedPhoneLabel = new JLabel("固定电话",JLabel.RIGHT);
+		fixedPhoneLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				accountNameText.setText("");
+	        } 
 		});
-		circulateBtnPanel.add(circulateSaleBtn);
+		fixedPhoneText = new JTextField(12);
 		
-		circulateReturnBtn = new JButton("退货记录");
-		circulateReturnBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				circulateContentPanel.add(f);
-				circulateContentPanel.repaint();
-			}
+		userEmailLabel = new JLabel("电子邮件",JLabel.RIGHT);
+		userEmailLabel.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				accountNameText.setText("");
+	        } 
 		});
-		circulateBtnPanel.add(circulateReturnBtn);
+		userEmailText = new JTextField(12);
 		
-		circulateTabPanel.add(circulateBtnPanel,BorderLayout.NORTH);
 		
-		circulateContentPanel = new JPanel();
-		circulateContentPanel.setBackground(Color.DARK_GRAY);
-		circulateTabPanel.add(circulateContentPanel,BorderLayout.CENTER);
+		this.add(accountNameLabel);
+		this.add(accountNameText);
+		this.add(userIDLabel);
+		this.add(userIDText);
+		this.add(userNameLabel);
+		this.add(userNameText);
+		this.add(mobilePhoneLabel);
+		this.add(mobilePhoneText);
+		this.add(fixedPhoneLabel);
+		this.add(fixedPhoneText);
+		this.add(userEmailLabel);
+		this.add(userEmailText);
 		
-		tabbedPane.add("货物流通管理", circulateTabPanel);
-				
-		this.add(tabbedPane);		
 		this.setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		new MainFrame(0);
-	}	
 		
-}
+	}
 
+}
