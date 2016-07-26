@@ -166,7 +166,6 @@ public class Register extends JFrame {
 			account.setAccountName(accountNameText.getText().trim());
 			account.setAccountPassword(String.valueOf(pwdField.getPassword()));
 			account.setAccountType(1);
-			account.setAccountState(1);
 			account.setUserID(Integer.parseInt(userIDText.getText().trim()));
 			try {
 				if (DAOFactory.createAccount().doCreate(account)) {

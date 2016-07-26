@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 public class Captcha {
 	
-	private static final String str = "qazwsxedcrfvtgbyhnujmklp23456789";
+	private static final String str = "qazwsxedcrfvtgbyhnujklp23456789";
 	private static Random random = new Random();
 	private String result;
 	private ImageIcon icon;

@@ -20,22 +20,21 @@ public class Login extends JFrame {
 	private JLabel accountNameLabel,registerLabel,pwdLabel,pwdForgetLabel,captchaLabel,captchaIconLabel;
 	private String captchaString;
 	private Captcha captcha;
-	private JPanel accountNamePanel,pwdPanel,captchaPanel,buttonPanel;
-	Account account;
+	private JPanel contentPanel,buttonPanel;
+	private Account account;
 	
 	public Login(){
 		
 		this.setTitle("用户登录");
-		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
-		this.setSize(330,320);
+		this.setSize(330,290);
 		this.setLocationRelativeTo(null); 
 		this.setLayout(new FlowLayout());
 		this.getContentPane().add(new JLabel(new ImageIcon("water3.png")));
 		
-		accountNamePanel = new JPanel();
-		accountNamePanel.setLayout(new GridLayout(1,3));
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new GridLayout(3,3));
 		
 		accountNameLabel = new JLabel("用户名",JLabel.RIGHT);
 		accountNameLabel.addMouseListener(new MouseAdapter(){
@@ -43,12 +42,11 @@ public class Login extends JFrame {
 				accountNameText.setText("");
 	        } 
 		});
-		accountNamePanel.add(accountNameLabel);
-		accountNameText = new JTextField(10);
-		accountNamePanel.add(accountNameText);
+		contentPanel.add(accountNameLabel);
+		accountNameText = new JTextField(12);
+		contentPanel.add(accountNameText);
 		registerLabel = new JLabel("注册");
 		registerLabel.setForeground(Color.BLUE);
-		registerLabel.setFont(new Font("幼圆",Font.PLAIN,15));
 		registerLabel.addMouseListener(new MouseAdapter(){
 			public void mouseEntered(MouseEvent e) {
 				registerLabel.setForeground(Color.MAGENTA);
@@ -60,11 +58,8 @@ public class Login extends JFrame {
 				new Register();
 	        } 
 		});
-		accountNamePanel.add(registerLabel);
-		this.getContentPane().add(accountNamePanel);
+		contentPanel.add(registerLabel);
 		
-		pwdPanel = new JPanel();
-		pwdPanel.setLayout(new GridLayout(1,3));
 		
 		pwdLabel = new JLabel("密  码",JLabel.RIGHT);
 		pwdLabel.addMouseListener(new MouseAdapter(){
@@ -72,10 +67,10 @@ public class Login extends JFrame {
 				pwdField.setText("");
 	        } 
 		});
-		pwdPanel.add(pwdLabel);
-		pwdField = new JPasswordField(10);
+		contentPanel.add(pwdLabel);
+		pwdField = new JPasswordField(12);
 		pwdField.setEchoChar('*');
-		pwdPanel.add(pwdField);
+		contentPanel.add(pwdField);
 		pwdForgetLabel = new JLabel("忘记密码？");
 		pwdForgetLabel.setForeground(Color.BLUE);
 		pwdForgetLabel.addMouseListener(new MouseAdapter(){
@@ -89,11 +84,8 @@ public class Login extends JFrame {
 				JOptionPane.showMessageDialog(Login.this, "找管理员吧^^","提醒",JOptionPane.INFORMATION_MESSAGE);
 	        } 
 		});
-		pwdPanel.add(pwdForgetLabel);
-		this.getContentPane().add(pwdPanel);
+		contentPanel.add(pwdForgetLabel);
 		
-		captchaPanel = new JPanel();
-		captchaPanel.setLayout(new GridLayout(1,3));
 		
 		captchaLabel = new JLabel("验证码",JLabel.RIGHT);
 		captchaLabel.addMouseListener(new MouseAdapter(){
@@ -101,14 +93,14 @@ public class Login extends JFrame {
 				captchaText.setText("");
 	        }   
 		});
-		captchaPanel.add(captchaLabel);
-		captchaText = new JTextField(10);
-		captchaPanel.add(captchaText);
+		contentPanel.add(captchaLabel);
+		captchaText = new JTextField(12);
+		contentPanel.add(captchaText);
 		
 		captcha = new Captcha();	
 		captchaIconLabel = new JLabel(captcha.getInstance(60,25),JLabel.LEFT);
 		captchaString = captcha.getString();
-		captchaPanel.add(captchaIconLabel);
+		contentPanel.add(captchaIconLabel);
 		captchaIconLabel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
 				captcha = new Captcha();
@@ -119,8 +111,7 @@ public class Login extends JFrame {
 	        }   
 		});
 		
-		
-		this.getContentPane().add(captchaPanel);
+		this.getContentPane().add(contentPanel);
 		
 		
 		buttonPanel = new JPanel();
@@ -176,7 +167,7 @@ public class Login extends JFrame {
 				}
 				else {
 					System.out.println("success");
-					new MainFrame(account.getAccountType());
+					new MainFrame(account);
 					Login.this.dispose();
 				}
 			}

@@ -5,7 +5,6 @@ public class Account {
 	private String accountName;
 	private String accountPassword;
 	private Integer accountType;
-	private Integer accountState;
 	private Integer userID;
 	
 	public String getAccountName() {
@@ -25,12 +24,6 @@ public class Account {
 	}
 	public void setAccountType(Integer accountType) {
 		this.accountType = accountType;
-	}
-	public Integer getAccountState() {
-		return accountState;
-	}
-	public void setAccountState(Integer accountState) {
-		this.accountState = accountState;
 	}
 	public Integer getUserID() {
 		return userID;

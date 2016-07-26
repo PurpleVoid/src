@@ -7,17 +7,16 @@ public class User {
 	private String mobilePhone;
 	private String fixedPhone;
 	private String userEmail;
-	
-	public Integer getuserID() {
+	public Integer getUserID() {
 		return userID;
 	}
-	public void setuserID(Integer userID) {
+	public void setUserID(Integer userID) {
 		this.userID = userID;
 	}
-	public String getuserName() {
+	public String getUserName() {
 		return userName;
 	}
-	public void setuserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 	public String getMobilePhone() {
@@ -32,11 +31,13 @@ public class User {
 	public void setFixedPhone(String fixedPhone) {
 		this.fixedPhone = fixedPhone;
 	}
-	public String getuserEmail() {
+	public String getUserEmail() {
 		return userEmail;
 	}
-	public void setuserEmail(String userEmail) {
+	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
+	
+	
 	
 }

@@ -4,15 +4,17 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import table.Account;
+
 public class MainFrame extends JFrame {
 	
 	private JTabbedPane tabbedPane;
 	private JPanel userTabPanel,commodityTabPanel,providerTabPanel,circulateTabPanel;
 	private JPanel userBtnPanel,commodityBtnPanel,providerBtnPanel,circulateBtnPanel;
-	private JPanel userContentPanel,commodityContentPanel,providerContentPanel,circulateContentPanel;
+	private JDesktopPane userDesktopPane,commodityDesktopPane,providerDesktopPane,circulateDesktopPane;
 	private JButton userListBtn,userManageBtn,commodityListBtn,providerListBtn,circulateInBtn,circulateSaleBtn,circulateReturnBtn;
 	
-	public MainFrame(int accountType) {
+	public MainFrame(Account account) {
 		this.setTitle("小型超市管理系统");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
@@ -29,30 +31,25 @@ public class MainFrame extends JFrame {
 		userManageBtn = new JButton("个人信息");
 		userManageBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				userContentPanel.add(f);
-				userContentPanel.repaint();
+				userDesktopPane.add(new UserManage(account));
 			}
 		});
 		userBtnPanel.add(userManageBtn);
-		if (accountType == 0) {
+		if (account.getAccountType() == 0) {
 			userListBtn = new JButton("用户列表");
 			userListBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JPanel f = new JPanel();
-
-					userContentPanel.add(f);
-					userContentPanel.repaint();
+					userDesktopPane.add(new UserList());
 				}
 			});
 			userBtnPanel.add(userListBtn);
 		}
 		userTabPanel.add(userBtnPanel,BorderLayout.NORTH);
 		
-		userContentPanel = new JPanel();
-		userContentPanel.setBackground(Color.DARK_GRAY);
-		userTabPanel.add(userContentPanel,BorderLayout.CENTER);
+		userDesktopPane = new JDesktopPane();
+		//userDesktopPane.setLayout(new FlowLayout());
+		userDesktopPane.setBackground(Color.DARK_GRAY);
+		userTabPanel.add(userDesktopPane,BorderLayout.CENTER);
 		
 		tabbedPane.add("用户信息管理", userTabPanel);
 		
@@ -67,16 +64,16 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JPanel f = new JPanel();
 				
-				commodityContentPanel.add(f);
-				commodityContentPanel.repaint();
+				commodityDesktopPane.add(f);
+				commodityDesktopPane.repaint();
 			}
 		});
 		commodityBtnPanel.add(commodityListBtn);
 		commodityTabPanel.add(commodityBtnPanel,BorderLayout.NORTH);
 		
-		commodityContentPanel = new JPanel();
-		commodityContentPanel.setBackground(Color.DARK_GRAY);
-		commodityTabPanel.add(commodityContentPanel,BorderLayout.CENTER);
+		commodityDesktopPane = new JDesktopPane();
+		commodityDesktopPane.setBackground(Color.DARK_GRAY);
+		commodityTabPanel.add(commodityDesktopPane,BorderLayout.CENTER);
 		
 		tabbedPane.add("商品管理", commodityTabPanel);
 
@@ -91,16 +88,16 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JPanel f = new JPanel();
 				
-				providerContentPanel.add(f);
-				providerContentPanel.repaint();
+				providerDesktopPane.add(f);
+				providerDesktopPane.repaint();
 			}
 		});
 		providerBtnPanel.add(providerListBtn);
 		providerTabPanel.add(providerBtnPanel,BorderLayout.NORTH);
 		
-		providerContentPanel = new JPanel();
-		providerContentPanel.setBackground(Color.DARK_GRAY);
-		providerTabPanel.add(providerContentPanel,BorderLayout.CENTER);
+		providerDesktopPane = new JDesktopPane();
+		providerDesktopPane.setBackground(Color.DARK_GRAY);
+		providerTabPanel.add(providerDesktopPane,BorderLayout.CENTER);
 		
 		tabbedPane.add("供应商管理", providerTabPanel);
 
@@ -115,8 +112,8 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e){
 				JPanel f = new JPanel();
 				
-				circulateContentPanel.add(f);
-				circulateContentPanel.repaint();
+				circulateDesktopPane.add(f);
+				circulateDesktopPane.repaint();
 			}
 		});
 		circulateBtnPanel.add(circulateInBtn);
@@ -126,8 +123,8 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JPanel f = new JPanel();
 				
-				circulateContentPanel.add(f);
-				circulateContentPanel.repaint();
+				circulateDesktopPane.add(f);
+				circulateDesktopPane.repaint();
 			}
 		});
 		circulateBtnPanel.add(circulateSaleBtn);
@@ -137,23 +134,24 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JPanel f = new JPanel();
 				
-				circulateContentPanel.add(f);
-				circulateContentPanel.repaint();
+				circulateDesktopPane.add(f);
+				circulateDesktopPane.repaint();
 			}
 		});
 		circulateBtnPanel.add(circulateReturnBtn);
 		
 		circulateTabPanel.add(circulateBtnPanel,BorderLayout.NORTH);
 		
-		circulateContentPanel = new JPanel();
-		circulateContentPanel.setBackground(Color.DARK_GRAY);
-		circulateTabPanel.add(circulateContentPanel,BorderLayout.CENTER);
+		circulateDesktopPane = new JDesktopPane();
+		circulateDesktopPane.setBackground(Color.DARK_GRAY);
+		circulateTabPanel.add(circulateDesktopPane,BorderLayout.CENTER);
 		
 		tabbedPane.add("货物流通管理", circulateTabPanel);
 				
 		this.add(tabbedPane);		
-		this.setVisible(true);
-	}
+		this.setVisible(true);	
 		
+	}
+	
 }
 
