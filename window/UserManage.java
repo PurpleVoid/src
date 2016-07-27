@@ -2,6 +2,7 @@ package window;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.*;
@@ -17,7 +18,10 @@ public class UserManage extends JInternalFrame {
 	private JTextField accountNameText,userIDText,userNameText,mobilePhoneText,fixedPhoneText,userEmailText;
 	private JPanel contentPanel,buttonPanel;
 	private JButton cancelBtn,pwdChangeBtn,editBtn,saveBtn;
+	private JPasswordField pwdOldField,pwdNewField,pwdEnsureField;
+	private JLabel pwdOldInfoLabel,pwdNewInfoLabel,pwdEnsureInfoLabel;
 	private User user;
+	private Connection con;
 	private AccountDAO ad;
 	private UserDAO ud;
 	
@@ -25,10 +29,9 @@ public class UserManage extends JInternalFrame {
 		this.setTitle("个人信息");
 		this.setSize(300, 260);
 		this.setLayout(new FlowLayout());
-		ad = new AccountDAO();
-		ad.setConnection(DatabaseConnection.getConnection());
-		ud = new UserDAO();
-		ud.setConnection(DatabaseConnection.getConnection());
+		con = DatabaseConnection.getConnection();
+		ad = new AccountDAO(con);
+		ud = new UserDAO(con);
 		try {
 			user = ud.findByUserID(account.getUserID());
 		} catch (SQLException e1) {
@@ -128,7 +131,71 @@ public class UserManage extends JInternalFrame {
 		pwdChangeBtn.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//修改密码
+				JPanel f = new JPanel();
+				f.setLayout(new GridLayout(3,3));
+				
+				f.add(new JLabel("旧密码",JLabel.RIGHT));
+				pwdOldField = new JPasswordField(10);
+				pwdOldField.setEchoChar('*');
+				pwdOldField.addFocusListener(new FocusAdapter(){
+					public void focusLost(FocusEvent e) {
+						if(!account.getAccountPassword().equals(String.valueOf(pwdOldField.getPassword()))) {
+							JOptionPane.showMessageDialog(null,"输入密码错误", "错误",JOptionPane.ERROR_MESSAGE);
+							pwdOldField.requestFocus();
+							pwdOldField.setText("");
+						}
+						else {
+							pwdOldInfoLabel.setIcon(new ImageIcon("iconpng.png"));
+						}
+					}
+				});
+				f.add(pwdOldField);
+				pwdOldInfoLabel = new JLabel("",JLabel.LEFT);
+				f.add(pwdOldInfoLabel);
+				
+				f.add(new JLabel("新密码",JLabel.RIGHT));
+				pwdNewField = new JPasswordField(10);
+				pwdNewField.setEchoChar('*');
+				f.add(pwdNewField);
+				pwdNewInfoLabel = new JLabel("",JLabel.LEFT);
+				f.add(pwdNewInfoLabel);
+				
+				f.add(new JLabel("确认密码",JLabel.RIGHT));
+				pwdEnsureField = new JPasswordField(10);
+				pwdEnsureField.setEchoChar('*');
+				pwdEnsureField.addFocusListener(new FocusAdapter(){
+					public void focusLost(FocusEvent e) {
+						if(!String.valueOf(pwdNewField.getPassword()).equals(String.valueOf(pwdEnsureField.getPassword()))) {
+							JOptionPane.showMessageDialog(null,"两次输入密码不匹配", "错误",JOptionPane.ERROR_MESSAGE);
+							pwdEnsureField.requestFocus();
+							pwdEnsureField.setText("");
+						}
+						else {
+							pwdNewInfoLabel.setIcon(new ImageIcon("iconpng.png"));
+							pwdEnsureInfoLabel.setIcon(new ImageIcon("iconpng.png"));
+						}
+					}
+				});
+				f.add(pwdEnsureField);
+				pwdEnsureInfoLabel = new JLabel("",JLabel.LEFT);
+				f.add(pwdEnsureInfoLabel);
+				
+				String but[]={"确认","取消"};
+				int response = JOptionPane.showOptionDialog(null,f,"修改密码",JOptionPane.YES_OPTION,JOptionPane.CANCEL_OPTION,null,but,but[0]);					
+				
+				if (response==0) {
+					account.setAccountPassword(String.valueOf(pwdEnsureField.getPassword()));
+					try {
+						if (ad.updateByAccountName(account)) {
+							JOptionPane.showMessageDialog(null, "提交成功", "成功", JOptionPane.OK_OPTION);
+						}
+						else {
+							System.out.println("pwdUpdate failed");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		buttonPanel.add(pwdChangeBtn);

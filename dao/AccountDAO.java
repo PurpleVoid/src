@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import table.Account;
 
@@ -12,7 +13,7 @@ public class AccountDAO {
 	private Connection con;  
     private PreparedStatement stat;  
     
-    public void setConnection(Connection con) {  
+    public AccountDAO(Connection con) {  
         this.con = con;  
     } 
     
@@ -77,12 +78,12 @@ public class AccountDAO {
         }  
     }
     
-    public ArrayList<Account> findAll() throws SQLException {  
+    public List<Account> findAll() throws SQLException {  
         String sql = "select * from Account";  
         stat = con.prepareStatement(sql);  
         ResultSet rs = stat.executeQuery();  
         Account account = null;  
-        ArrayList<Account> list = new ArrayList<Account>();  
+        List<Account> list = new ArrayList<Account>();  
         while(rs.next()) {  
             account = new Account();  
             account.setAccountName(rs.getString(1));  

@@ -13,7 +13,7 @@ public class UserDAO {
 	private Connection con;  
     private PreparedStatement stat;  
     
-    public void setConnection(Connection con) {  
+    public UserDAO(Connection con) {  
         this.con = con;  
     } 
     

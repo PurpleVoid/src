@@ -4,6 +4,7 @@ import tools.Captcha;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.*;
@@ -13,7 +14,6 @@ import dao.AccountDAO;
 import table.Account;
 
 public class Login extends JFrame {
-
 	
 	private JTextField accountNameText,captchaText;
 	private JPasswordField pwdField;
@@ -24,6 +24,7 @@ public class Login extends JFrame {
 	private JPanel contentPanel,buttonPanel;
 	private Account account;
 	private AccountDAO ad;
+	private Connection con;
 	
 	public Login(){
 		
@@ -34,8 +35,8 @@ public class Login extends JFrame {
 		this.setLocationRelativeTo(null); 
 		this.setLayout(new FlowLayout());
 		this.getContentPane().add(new JLabel(new ImageIcon("water3.png")));
-		ad = new AccountDAO();
-		ad.setConnection(DatabaseConnection.getConnection());
+		con = DatabaseConnection.getConnection();
+		ad = new AccountDAO(con);
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(3,3));

@@ -27,7 +27,7 @@ public class MainFrame extends JFrame {
 		userTabPanel.setLayout(new BorderLayout());
 		userBtnPanel = new JPanel();
 		userBtnPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
+				
 		userManageBtn = new JButton("个人信息");
 		userManageBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		userBtnPanel.add(userManageBtn);
+		
 		if (account.getAccountType() == 0) {
 			userListBtn = new JButton("用户列表");
 			userListBtn.addActionListener(new ActionListener() {

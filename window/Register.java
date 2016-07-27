@@ -10,6 +10,7 @@ import connection.DatabaseConnection;
 import dao.AccountDAO;
 import dao.UserDAO;
 import table.Account;
+import table.User;
 
 
 public class Register extends JFrame {
@@ -20,8 +21,9 @@ public class Register extends JFrame {
 	private JButton cancelButton,submitButton;
 	private JLabel accountNameLabel,accountInfoLabel,pwdLabel,pwdInfoLabel,pwdEnsureLabel,pwdEnsureInfoLabel,userIDLabel,userIDInfoLabel;
 	private JPanel accountNamePanel,pwdPanel,pwdEnsurePanel,userIDPanel,buttonPanel;
+	private Connection con;
+	private Account account;
 	private AccountDAO ad;
-	private UserDAO ud;
 	
 	public Register() {
 		
@@ -30,10 +32,8 @@ public class Register extends JFrame {
 		this.setSize(300,200);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new FlowLayout());
-		ad = new AccountDAO();
-		ad.setConnection(DatabaseConnection.getConnection());
-		ud = new UserDAO();
-		ud.setConnection(DatabaseConnection.getConnection());
+		con = DatabaseConnection.getConnection();
+		ad = new AccountDAO(con);
 		//用户名
 		accountNamePanel = new JPanel();
 		accountNamePanel.setLayout(new GridLayout(1,3));
@@ -145,8 +145,6 @@ public class Register extends JFrame {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-
-			Account account = null;
 			try {
 				account = ad.findByAccountName(accountNameText.getText().trim());
 			} catch (SQLException e1) {
