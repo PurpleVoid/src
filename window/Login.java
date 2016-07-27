@@ -8,7 +8,8 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-import factory.DAOFactory;
+import connection.DatabaseConnection;
+import dao.AccountDAO;
 import table.Account;
 
 public class Login extends JFrame {
@@ -22,6 +23,7 @@ public class Login extends JFrame {
 	private Captcha captcha;
 	private JPanel contentPanel,buttonPanel;
 	private Account account;
+	private AccountDAO ad;
 	
 	public Login(){
 		
@@ -32,6 +34,8 @@ public class Login extends JFrame {
 		this.setLocationRelativeTo(null); 
 		this.setLayout(new FlowLayout());
 		this.getContentPane().add(new JLabel(new ImageIcon("water3.png")));
+		ad = new AccountDAO();
+		ad.setConnection(DatabaseConnection.getConnection());
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(3,3));
@@ -151,7 +155,7 @@ public class Login extends JFrame {
 			else {
 				account = null;
 				try {
-					account = DAOFactory.createAccount().findByAccountName(accountNameText.getText().trim());
+					account = ad.findByAccountName(accountNameText.getText().trim());
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}

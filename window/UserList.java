@@ -3,22 +3,19 @@ package window;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import factory.DAOFactory;
+import connection.DatabaseConnection;
+import dao.AccountDAO;
+import dao.UserDAO;
 import table.Account;
 
 public class UserList extends JInternalFrame {
@@ -27,17 +24,21 @@ public class UserList extends JInternalFrame {
 	private JTable table;
 	private DefaultTableModel tablemodel;
 	private JPanel contentPanel,buttonPanel;
-	private JTextField accountNameText,userIDText;
+	private JTextField accountNameText,userIDText,userNameText,mobilePhoneText,fixedPhoneText,userEmailText;
 	private JPasswordField pwdField;
+	private AccountDAO ad;
+	private UserDAO ud;
 	
 	public UserList() {
 		this.setTitle("用户列表");
-		this.setSize(500, 600);
+		this.setSize(800, 600);
 		this.setLayout(new FlowLayout());
-		
-		contentPanel = new JPanel();
-        
-        String[] title={"用户名","密码","工号"};
+		ad = new AccountDAO();
+		ad.setConnection(DatabaseConnection.getConnection());
+		ud = new UserDAO();
+		ud.setConnection(DatabaseConnection.getConnection());
+		contentPanel = new JPanel();       
+        String[] title={"用户名","工号","姓名","手机号","固定电话","电子邮箱"};
         tablemodel = new DefaultTableModel(title,0);
 		table = new JTable(tablemodel);
         contentPanel.add(new JScrollPane(table));
@@ -67,19 +68,31 @@ public class UserList extends JInternalFrame {
 	
 	private JPanel createInterPanel() {
 		JPanel f = new JPanel();
-		f.setLayout(new GridLayout(3,1));
+		f.setLayout(new GridLayout(6,2));
 		
 		f.add(new JLabel("用户名"));
 		accountNameText = new JTextField(10);
 		f.add(accountNameText);
 		
-		f.add(new JLabel("密码"));
-		pwdField = new JPasswordField(10);
-		f.add(pwdField);
-		
 		f.add(new JLabel("工号"));
 		userIDText = new JTextField(10);
 		f.add(userIDText);
+		
+		f.add(new JLabel("姓名"));
+		userNameText = new JTextField(10);
+		f.add(userNameText);
+		
+		f.add(new JLabel("手机号"));
+		mobilePhoneText = new JTextField(10);
+		f.add(mobilePhoneText);
+		
+		f.add(new JLabel("固定电话"));
+		fixedPhoneText = new JTextField(10);
+		f.add(fixedPhoneText);
+		
+		f.add(new JLabel("电子邮箱"));
+		userEmailText = new JTextField(10);
+		f.add(userEmailText);
 		
 		return f;
 	}
@@ -91,13 +104,25 @@ public class UserList extends JInternalFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 			int row = table.getSelectedRow();
-		    try {
-				if (DAOFactory.createAccount().deleteByAccountName(tablemodel.getValueAt(row, 0).toString()))
-					JOptionPane.showMessageDialog(UserList.this,"数据已删除");
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		    print();
+			Connection con = DatabaseConnection.getConnection();
+			String accountName = tablemodel.getValueAt(row, 0).toString();
+			int userID = Integer.parseInt(tablemodel.getValueAt(row, 1).toString());
+			
+			try {
+				con.setAutoCommit(false);		    
+				ad.deleteByAccountName(accountName);
+				ud.deleteByUserID(userID);			
+				con.commit();
+				con.setAutoCommit(true);
+				JOptionPane.showMessageDialog(UserList.this,"数据已删除");
+				print();
+			} catch (Exception e1) {
+				try {
+					con.rollback();
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			} 
 		}
 
 	}
@@ -126,15 +151,13 @@ public class UserList extends JInternalFrame {
 				account.setAccountType(1);
 				account.setUserID(Integer.parseInt(userIDText.getText().trim()));
 				try {
-					if (DAOFactory.createAccount().updateByAccountName(account)) {
+					if (ad.updateByAccountName(account)) {
 						JOptionPane.showMessageDialog(UserList.this, "提交成功", "成功", JOptionPane.OK_OPTION);
 					}
 					else {
 						System.out.println("update failed");
 					}
-				} catch (HeadlessException e1) {
-					e1.printStackTrace();
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -158,12 +181,10 @@ public class UserList extends JInternalFrame {
 				account.setAccountType(1);
 				account.setUserID(Integer.parseInt(userIDText.getText().trim()));
 				try {
-					if (DAOFactory.createAccount().doCreate(account)) {
+					if (ad.doCreate(account)) {
 						JOptionPane.showMessageDialog(UserList.this, "提交成功", "成功", JOptionPane.OK_OPTION);
 					}
-				} catch (HeadlessException e1) {
-					e1.printStackTrace();
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -175,7 +196,7 @@ public class UserList extends JInternalFrame {
 	private void print(){
 		tablemodel.setRowCount(0);
 		try{
-			ArrayList<Account> list = DAOFactory.createAccount().findAll();
+			List<Account> list = ad.findAll();
             Iterator<Account> it = list.iterator();
             while(it.hasNext()){
             	Account account = it.next();

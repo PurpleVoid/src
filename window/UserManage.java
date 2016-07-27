@@ -1,15 +1,14 @@
 package window;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 import javax.swing.*;
 
-import factory.DAOFactory;
+import connection.DatabaseConnection;
+import dao.AccountDAO;
+import dao.UserDAO;
 import table.Account;
 import table.User;
 
@@ -19,14 +18,19 @@ public class UserManage extends JInternalFrame {
 	private JPanel contentPanel,buttonPanel;
 	private JButton cancelBtn,pwdChangeBtn,editBtn,saveBtn;
 	private User user;
+	private AccountDAO ad;
+	private UserDAO ud;
 	
 	public UserManage(Account account){
 		this.setTitle("个人信息");
 		this.setSize(300, 260);
 		this.setLayout(new FlowLayout());
-		
+		ad = new AccountDAO();
+		ad.setConnection(DatabaseConnection.getConnection());
+		ud = new UserDAO();
+		ud.setConnection(DatabaseConnection.getConnection());
 		try {
-			user = DAOFactory.createUser().findByUserID(account.getUserID());
+			user = ud.findByUserID(account.getUserID());
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -154,15 +158,13 @@ public class UserManage extends JInternalFrame {
 				user.setFixedPhone(fixedPhoneText.getText().trim());
 				user.setUserEmail(userEmailText.getText().trim());
 				try {
-					if (DAOFactory.createUser().updateByUserID(user)) {
+					if (ud.updateByUserID(user)) {
 						JOptionPane.showMessageDialog(UserManage.this, "提交成功", "成功", JOptionPane.OK_OPTION);
 					}
 					else {
 						System.out.println("update failed");
 					}
-				} catch (HeadlessException e1) {
-					e1.printStackTrace();
-				} catch (SQLException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}

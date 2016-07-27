@@ -6,7 +6,9 @@ import java.sql.*;
 
 import javax.swing.*;
 
-import factory.DAOFactory;
+import connection.DatabaseConnection;
+import dao.AccountDAO;
+import dao.UserDAO;
 import table.Account;
 
 
@@ -18,6 +20,8 @@ public class Register extends JFrame {
 	private JButton cancelButton,submitButton;
 	private JLabel accountNameLabel,accountInfoLabel,pwdLabel,pwdInfoLabel,pwdEnsureLabel,pwdEnsureInfoLabel,userIDLabel,userIDInfoLabel;
 	private JPanel accountNamePanel,pwdPanel,pwdEnsurePanel,userIDPanel,buttonPanel;
+	private AccountDAO ad;
+	private UserDAO ud;
 	
 	public Register() {
 		
@@ -26,7 +30,10 @@ public class Register extends JFrame {
 		this.setSize(300,200);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new FlowLayout());
-		
+		ad = new AccountDAO();
+		ad.setConnection(DatabaseConnection.getConnection());
+		ud = new UserDAO();
+		ud.setConnection(DatabaseConnection.getConnection());
 		//用户名
 		accountNamePanel = new JPanel();
 		accountNamePanel.setLayout(new GridLayout(1,3));
@@ -141,7 +148,7 @@ public class Register extends JFrame {
 
 			Account account = null;
 			try {
-				account = DAOFactory.createAccount().findByAccountName(accountNameText.getText().trim());
+				account = ad.findByAccountName(accountNameText.getText().trim());
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -168,7 +175,7 @@ public class Register extends JFrame {
 			account.setAccountType(1);
 			account.setUserID(Integer.parseInt(userIDText.getText().trim()));
 			try {
-				if (DAOFactory.createAccount().doCreate(account)) {
+				if (ad.doCreate(account)) {
 					JOptionPane.showMessageDialog(Register.this, "提交成功", "成功", JOptionPane.OK_OPTION);
 				}
 			} catch (HeadlessException e1) {
