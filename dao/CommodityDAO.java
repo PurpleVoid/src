@@ -47,6 +47,7 @@ public class CommodityDAO {
         	
         	calendar.setTime(rs.getDate(10));
         	commodity.setInDate(calendar);
+        	commodity.setCommodityNumber(rs.getInt(11));
         	
         }
         return commodity;
@@ -78,6 +79,7 @@ public class CommodityDAO {
         stat.setInt(8, commodity.getProviderID());
         stat.setDate(9, (java.sql.Date) commodity.getInDate().getTime());
         stat.setInt(10, commodity.getCommodityID());
+        stat.setInt(11,commodity,getCommodityNumber());
         int update = stat.executeUpdate();  
         if (update > 0) {  
             return true;  
@@ -100,6 +102,7 @@ public class CommodityDAO {
         stat.setString(8, commodity.getUnitName());
         stat.setInt(9, commodity.getProviderID());
         stat.setDate(10, (java.sql.Date) commodity.getInDate().getTime());
+        stat.setInt(11,commodity,getCommodityNumber());
         
         int update = stat.executeUpdate();  
         if (update > 0) {  
@@ -137,6 +140,7 @@ public class CommodityDAO {
             
             calendar.setTime(rs.getDate(10));
             commodity.setInDate(calendar);
+            commodity.setCommodityNumber(rs.getInt(11));
             list.add(commodity);  
         }  
         return list;  
