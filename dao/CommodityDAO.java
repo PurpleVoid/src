@@ -4,10 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import table.Commodity;
@@ -50,6 +48,7 @@ public class CommodityDAO {
         	calendar.setTime(rs.getDate(10));
         	commodity.setInDate(calendar);
         	
+        	commodity.setCommodityNumber(rs.getInt(11));
         }
         return commodity;
     }
@@ -68,7 +67,7 @@ public class CommodityDAO {
     }
     
     public boolean updateByCommodityID(Commodity commodity) throws SQLException {
-    	String sql="update Commodity set commodityName=?,produceDate=?,inPrice=?,salePrice=?,storageTime=?,downLimit=?,unitName=?,providerNumber=?,inDate=? where commodityID=?;";
+    	String sql="update Commodity set commodityName=?,produceDate=?,inPrice=?,salePrice=?,storageTime=?,downLimit=?,unitName=?,providerNumber=?,inDate=?,commodityNumber=? where commodityID=?;";
     	stat = con.prepareStatement(sql);
     	stat.setString(1, commodity.getCommodityName());
     	stat.setDate(2, (java.sql.Date) commodity.getProduceDate().getTime());
@@ -79,6 +78,8 @@ public class CommodityDAO {
         stat.setString(7, commodity.getUnitName());
         stat.setInt(8, commodity.getProviderNumber());
         stat.setDate(9, (java.sql.Date) commodity.getInDate().getTime());
+        stat.setInt(11, commodity.getCommodityNumber());
+        stat.setInt(10, commodity.getCommodityID());
         int update = stat.executeUpdate();  
         if (update > 0) {  
             return true;  
@@ -101,6 +102,7 @@ public class CommodityDAO {
         stat.setString(8, commodity.getUnitName());
         stat.setInt(9, commodity.getProviderNumber());
         stat.setDate(10, (java.sql.Date) commodity.getInDate().getTime());
+        stat.setInt(11, commodity.getCommodityNumber());
         
         int update = stat.executeUpdate();  
         if (update > 0) {  
@@ -138,6 +140,8 @@ public class CommodityDAO {
             
             calendar.setTime(rs.getDate(10));
             commodity.setInDate(calendar);
+            
+            commodity.setCommodityNumber(rs.getInt(11));
             list.add(commodity);  
         }  
         return list;  
