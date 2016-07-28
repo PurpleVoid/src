@@ -14,6 +14,7 @@ public class Commodity {
 	private String unitName;
 	private Integer providerID;
 	private Calendar inDate;
+	private Integer commodityNumber;
 	
 	public Integer getCommodityID() {
 		return commodityID;
@@ -75,7 +76,12 @@ public class Commodity {
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
 	}
-	
+	public Integer getCommodityNumber(){
+		return commodityNumber;
+	}
+	public void setCommodityNumber(Integer commodityNumber) {
+		this.commodityNumber = commodityNumber;
+	}
 	
 	
 }
