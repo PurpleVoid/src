@@ -4,10 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import table.Commodity;
@@ -17,7 +15,7 @@ public class CommodityDAO {
 	private Connection con;  
     private PreparedStatement stat;  
     
-    public void setConnection(Connection con) {  
+    public CommodityDAO(Connection con) {  
         this.con = con;  
     } 
     
@@ -26,7 +24,7 @@ public class CommodityDAO {
     	stat = con.prepareStatement(sql);  
         stat.setInt(1, commodityID); 
         ResultSet rs = stat.executeQuery();
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         		
         Commodity commodity = null;
         if (rs.next()) {
@@ -45,7 +43,7 @@ public class CommodityDAO {
         	
         	commodity.setDownLimit(rs.getInt(7));
         	commodity.setUnitName(rs.getString(8));
-        	commodity.setProviderNumber(rs.getInt(9));
+        	commodity.setProviderID(rs.getInt(9));
         	
         	calendar.setTime(rs.getDate(10));
         	commodity.setInDate(calendar);
@@ -77,8 +75,9 @@ public class CommodityDAO {
         stat.setDate(5, (java.sql.Date) commodity.getStorageTime().getTime()); 
         stat.setInt(6, commodity.getDownLimit());
         stat.setString(7, commodity.getUnitName());
-        stat.setInt(8, commodity.getProviderNumber());
+        stat.setInt(8, commodity.getProviderID());
         stat.setDate(9, (java.sql.Date) commodity.getInDate().getTime());
+        stat.setInt(10, commodity.getCommodityID());
         int update = stat.executeUpdate();  
         if (update > 0) {  
             return true;  
@@ -99,7 +98,7 @@ public class CommodityDAO {
         stat.setDate(6, (java.sql.Date) commodity.getStorageTime().getTime());
         stat.setInt(7, commodity.getDownLimit());
         stat.setString(8, commodity.getUnitName());
-        stat.setInt(9, commodity.getProviderNumber());
+        stat.setInt(9, commodity.getProviderID());
         stat.setDate(10, (java.sql.Date) commodity.getInDate().getTime());
         
         int update = stat.executeUpdate();  
@@ -134,7 +133,7 @@ public class CommodityDAO {
             
             commodity.setDownLimit(rs.getInt(7));
             commodity.setUnitName(rs.getString(8));
-            commodity.setProviderNumber(rs.getInt(9));
+            commodity.setProviderID(rs.getInt(9));
             
             calendar.setTime(rs.getDate(10));
             commodity.setInDate(calendar);

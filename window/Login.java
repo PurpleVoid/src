@@ -44,7 +44,7 @@ public class Login extends JFrame {
 		accountNameLabel = new JLabel("用户名",JLabel.RIGHT);
 		accountNameLabel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				accountNameText.setText("");
+				accountNameText.setText("root");
 	        } 
 		});
 		contentPanel.add(accountNameLabel);
@@ -69,7 +69,7 @@ public class Login extends JFrame {
 		pwdLabel = new JLabel("密  码",JLabel.RIGHT);
 		pwdLabel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e) {
-				pwdField.setText("");
+				pwdField.setText("123456");
 	        } 
 		});
 		contentPanel.add(pwdLabel);
@@ -111,7 +111,7 @@ public class Login extends JFrame {
 				captcha = new Captcha();
 				captchaIconLabel.setIcon(captcha.getInstance(60,25));
 				captchaString = captcha.getString();
-				System.out.println(captchaString);
+				captchaText.setText(captchaString);
 				Login.this.repaint();
 	        }   
 		});
@@ -146,9 +146,6 @@ public class Login extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (accountNameText.getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(Login.this, "用户名不能为空","错误",JOptionPane.ERROR_MESSAGE);
-			}
-			else if (pwdField.getPassword().length == 0) {
-				JOptionPane.showMessageDialog(Login.this, "密码不能为空","错误",JOptionPane.ERROR_MESSAGE);
 			}
 			else if (captchaText.getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(Login.this, "验证码不能为空","错误",JOptionPane.ERROR_MESSAGE);

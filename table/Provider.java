@@ -7,10 +7,10 @@ public class Provider {
 	private String providerAddress;
 	private String providerPhone;
 	
-	public Integer getproviderID() {
+	public Integer getProviderID() {
 		return providerID;
 	}
-	public void setproviderID(Integer providerID) {
+	public void setProviderID(Integer providerID) {
 		this.providerID = providerID;
 	}
 	public String getProviderName() {

@@ -1,7 +1,6 @@
 package window;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +33,7 @@ public class UserList extends JInternalFrame {
 	
 	public UserList() {
 		this.setTitle("用户列表");
-		this.setSize(800, 700);
+		this.setSize(700, 600);
 		this.setLayout(new BorderLayout()); 
 		con = DatabaseConnection.getConnection();
 		ad = new AccountDAO(con);
@@ -44,6 +43,7 @@ public class UserList extends JInternalFrame {
         String[] title={"用户名","工号","姓名","手机号","固定电话","电子邮箱"};
         tablemodel = new DefaultTableModel(title,0);
 		table = new JTable(tablemodel);
+		table.setSize(700,500);
         contentPanel.add(new JScrollPane(table));
         this.getContentPane().add(contentPanel,BorderLayout.NORTH);
         
@@ -86,7 +86,7 @@ public class UserList extends JInternalFrame {
 				con.commit();
 				con.setAutoCommit(true);
 				JOptionPane.showMessageDialog(UserList.this,"数据已删除");
-				print();
+				
 			} catch (Exception e1) {
 				try {
 					con.rollback();
@@ -94,6 +94,7 @@ public class UserList extends JInternalFrame {
 					e2.printStackTrace();
 				}
 			} 
+			print();
 		}
 
 	}

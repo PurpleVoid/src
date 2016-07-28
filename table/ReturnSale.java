@@ -30,10 +30,10 @@ public class ReturnSale {
 	public void setCommodityName(String commodityName) {
 		this.commodityName = commodityName;
 	}
-	public Integer getreturnNumber() {
+	public Integer getReturnNumber() {
 		return returnNumber;
 	}
-	public void setreturnNumber(Integer returnNumber) {
+	public void setReturnNumber(Integer returnNumber) {
 		this.returnNumber = returnNumber;
 	}
 	public Double getTotalMoney() {

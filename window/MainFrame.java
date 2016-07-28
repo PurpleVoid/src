@@ -87,10 +87,7 @@ public class MainFrame extends JFrame {
 		providerListBtn = new JButton("供应商列表");
 		providerListBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				providerDesktopPane.add(f);
-				providerDesktopPane.repaint();
+				providerDesktopPane.add(new ProviderList());
 			}
 		});
 		providerBtnPanel.add(providerListBtn);
@@ -133,10 +130,7 @@ public class MainFrame extends JFrame {
 		circulateReturnBtn = new JButton("退货记录");
 		circulateReturnBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JPanel f = new JPanel();
-				
-				circulateDesktopPane.add(f);
-				circulateDesktopPane.repaint();
+				circulateDesktopPane.add(new ReturnSaleList());
 			}
 		});
 		circulateBtnPanel.add(circulateReturnBtn);
