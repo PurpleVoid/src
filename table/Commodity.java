@@ -6,14 +6,15 @@ public class Commodity {
 
 	private Integer commodityID;
 	private String commodityName;
-	private Calendar produceDate;	
+	private Integer providerNumber;
 	private Double inPrice;
 	private Double salePrice;
-	private Calendar storageTime;	
+	private Calendar produceDate;
+	private Calendar inDate;
+	private Calendar storageTime;
 	private Integer downLimit;
 	private String unitName;
-	private Integer providerID;
-	private Calendar inDate;
+	private Integer commodityNumber;
 	
 	public Integer getCommodityID() {
 		return commodityID;
@@ -27,11 +28,11 @@ public class Commodity {
 	public void setCommodityName(String commodityName) {
 		this.commodityName = commodityName;
 	}
-	public Integer getProviderID() {
-		return providerID;
+	public Integer getProviderNumber() {
+		return providerNumber;
 	}
-	public void setProviderID(Integer providerID) {
-		this.providerID = providerID;
+	public void setProviderNumber(Integer providerNumber) {
+		this.providerNumber = providerNumber;
 	}
 	public Double getInPrice() {
 		return inPrice;
@@ -75,7 +76,13 @@ public class Commodity {
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
 	}
-	
+	public Integer getCommodityNumber(){
+		return commodityNumber;
+	}
+	public void setCommodityNumber(Integer commodityNumber) {
+		this.commodityNumber = commodityNumber;
+	}
 	
 	
 }
+
